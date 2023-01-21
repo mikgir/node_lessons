@@ -6,7 +6,7 @@ const options = yargs(hideBin(process.argv))
     .options('p', {
         alias: 'path',
         describe: 'Path to file',
-        damandOption: true
+        demandOption: true
     }).argv
 
 console.log(options)
