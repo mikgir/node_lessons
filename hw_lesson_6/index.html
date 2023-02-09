@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messanger</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"
+            integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<main>
+    <section>
+        <h1>Messanger</h1>
+        <input type="text" id="input" autofocus>
+        <input type="submit" id="send" value="Send">
+        <div id="app"></div>
+    </section>
+</main>
+</body>
+<script type="text/javascript">
+    const socket = io('localhost:3010');
+    socket.on('connect', () => console.log('Connection with localhost:3010 created'))
+    socket.on('server-msg', ({msg, userName}) => {
+        const msgSpan = document.createElement('span').innerHTML = msg
+        const nameSpan = document.createElement('span').innerHTML = userName
+        document.getElementById('app').append(nameSpan)
+        document.getElementById('app').append(msgSpan)
+        document.getElementById('app').append(document.createElement('br'))
+    })
+    socket.on('new-conn-event', ({msg, userName}) => {
+        const msgSpan = document.createElement('span').innerHTML = msg
+        const nameSpan = document.createElement('span').innerHTML = userName
+        document.getElementById('app').append(nameSpan)
+        document.getElementById('app').append(msgSpan)
+        document.getElementById('app').append(document.createElement('br'))
+    })
+
+    document.getElementById('send')
+        .onclick = function () {
+        socket.emit('client-msg', {msg: document.getElementById('input').value})
+        document.getElementById('input').value = ''
+    }
+</script>
+</html>

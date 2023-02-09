@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MFC logs</title>
+</head>
+<body>
+<main>
+    <section>
+        <h1>Electronic queue</h1>
+        <div id="app"></div>
+    </section>
+</main>
+
+</body>
+<script type="text/javascript">
+    setInterval(() => {
+        fetch('http://localhost:3000/api', {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(response => {
+                const app = document.getElementById("app");
+                app.innerHTML = ''
+                for (const mess of response) {
+                    var str = document.createElement('p');
+                    str.innerHTML = `${mess.type} - ${mess.payload}`;
+                    app.appendChild(str)
+                }
+            })
+    }, 1000)
+</script>
+</html>
